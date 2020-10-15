@@ -1,11 +1,6 @@
-import {
-    app,
-    BrowserWindow,
-    globalShortcut,
-    ipcMain,
-    screen,
-} from 'electron';
-import * as EventEmitter from 'events';
+import { app, BrowserWindow, globalShortcut, ipcMain, screen } from 'electron';
+
+import { EventEmitter } from 'events';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -25,9 +20,8 @@ export enum WindowLifecycle {
 }
 
 class BaseWindow extends EventEmitter {
-
     // properties
-    _accessor: Accessor; 
+    _accessor: Accessor;
     id: number | null;
     browserWindow: BrowserWindow | null;
     lifecycle: WindowLifecycle;
@@ -46,60 +40,58 @@ class BaseWindow extends EventEmitter {
     registerShortcut(key: string) {
         const shortcut = globalShortcut.register(key, () => {
             if (this.browserWindow) {
-
                 // Handle hiding window
                 if (this.browserWindow.isVisible()) {
-
                     if (this.type === WindowType.SEARCH) {
-                        this.browserWindow.webContents.send('rnd::hide-search')
+                        this.browserWindow.webContents.send('rnd::hide-search');
                     } else if (this.type === WindowType.EDITOR) {
-                        this.browserWindow.webContents.send('rnd::hide-editor')
+                        this.browserWindow.webContents.send('rnd::hide-editor');
                     }
 
                     this.browserWindow.hide();
 
-                // Handle showing window
+                    // Handle showing window
                 } else {
                     // For multiple monitors
                     this.browserWindow.setVisibleOnAllWorkspaces(true); // put the window on all screens
                     this.browserWindow.show(); // focus the window up front on the active screen
                     this.browserWindow.setVisibleOnAllWorkspaces(false); // disable all screen behavior
 
-					// Get mouse cursor absolute position
-                    const {x, y} = screen.getCursorScreenPoint();
-					// Find the display where the mouse cursor will be
+                    // Get mouse cursor absolute position
+                    const { x, y } = screen.getCursorScreenPoint();
+                    // Find the display where the mouse cursor will be
                     const currentDisplay = screen.getDisplayNearestPoint({ x, y });
-					// Set window position to that display coordinates
-                    this.browserWindow.setPosition(currentDisplay. workArea.x, currentDisplay. workArea.y);
-					// Center window relatively to that display
+                    // Set window position to that display coordinates
+                    this.browserWindow.setPosition(
+                        currentDisplay.workArea.x,
+                        currentDisplay.workArea.y
+                    );
+                    // Center window relatively to that display
                     if (this.type === WindowType.EDITOR) {
-					    this.browserWindow.center();
+                        this.browserWindow.center();
                     } else if (this.type === WindowType.SEARCH) {
                         const width = currentDisplay.bounds.width;
                         // this.browserWindow.setPosition(currentDisplay.workArea.x + width - 700, 0)
                         this.browserWindow.setPosition(
-                            currentDisplay.workArea.x + width - this.browserWindow.getBounds().width, 
+                            currentDisplay.workArea.x +
+                                width -
+                                this.browserWindow.getBounds().width,
                             currentDisplay.workArea.y
-                        )
+                        );
                     }
 
                     // Make sure search is always on top
                     if (this.type === WindowType.SEARCH) {
-                        this.browserWindow.setAlwaysOnTop(true, "floating", 1);
+                        this.browserWindow.setAlwaysOnTop(true, 'floating', 1);
+                        this.browserWindow.webContents.send('rnd::focus-search');
+                    }
 
-                        this._accessor.metrics.userSearch()
-
-                        this.browserWindow.webContents.send('rnd::focus-search')
-                    } 
-
-					// Display the window
+                    // Display the window
                     this.browserWindow.show();
                 }
             }
         });
     }
-
-
 
     reload() {
         if (this.browserWindow) this.browserWindow.reload();

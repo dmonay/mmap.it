@@ -1,10 +1,6 @@
 {
     "defaultSeverity": "error",
-    "extends": [
-        "tslint-config-airbnb",
-        "tslint-react",
-        "tslint-config-prettier"
-    ],
+    "extends": ["tslint-config-airbnb", "tslint-react", "tslint-config-prettier"],
     "jsRules": {},
     "rules": {
         "max-line-length": [true, 120],
@@ -16,13 +12,13 @@
                 "SwitchCase": 0
             }
         ],
-		"import-name": [
-		  true,
-		  null,
-		  {},
-		  null,
-		  { "ignoreExternalModule": false, "case": "any-case" }
-    	],
+        "import-name": [
+            true,
+            null,
+            {},
+            null,
+            { "ignoreExternalModule": false, "case": "any-case" }
+        ],
         "variable-name": false,
         "jsx-alignment": true,
         "jsx-equals-spacing": [true, "never"],

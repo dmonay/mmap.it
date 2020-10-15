@@ -11,21 +11,21 @@ type Props = {
 class Routes extends React.Component<Props> {
     render() {
         switch (this.props.page) {
-        case 'editor':
-            {
+            case 'editor':
+                {
                     return <EditorPage />;
                 }
-            break;
-        case 'search':
-            {
+                break;
+            case 'search':
+                {
                     return <SearchPage />;
                 }
-            break;
-        default:
-            {
+                break;
+            default:
+                {
                     return <EditorPage />;
                 }
-            break;
+                break;
         }
     }
 }
