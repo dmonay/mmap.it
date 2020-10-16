@@ -23,7 +23,11 @@ In development you can quickly get started by following these steps:
 
 1. Clone this repo
 2. `yarn`
-3. `yarn start-dev`
+3. `yarn dev`
+
+### Data
+
+Notes are stored to `~/.mmap`
 
 ### Production
 
@@ -33,10 +37,9 @@ For a production installation these are the suggested steps:
 2. Bump the version number in package.json
 3. Build and package the application with `yarn dist`
 
-## Contributing
-
-mmap.it is built and maintained by a small team - we'd love your help fixing bugs and adding features!
-
-## License
-
-mmap.it is [BSL 1.1 licensed](https://github.com/pdepip/mmap.it/blob/master/LICENSE).
+TODOs:
+[ ] dark mode
+[ ] encrypt data
+[ ] build it data backup/syncing
+[ ] upgrade dependencies (electron, TS)
+[ ] remove tslint
